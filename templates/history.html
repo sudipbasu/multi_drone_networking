@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Command History</title>
+    <!-- Bootstrap 5 CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+</head>
+<body class="bg-light">
+    <div class="container my-5">
+        <h1 class="mb-4 text-center">🚀 Drone Command History</h1>
+
+        <!-- Buttons -->
+        <div class="mb-3 d-flex justify-content-between">
+            <form action="/clear_history" method="POST" onsubmit="return confirm('Are you sure you want to clear history?');">
+                <button type="submit" class="btn btn-danger">Clear History</button>
+            </form>
+            <button class="btn btn-success" onclick="exportTableToCSV()">Export CSV</button>
+        </div>
+
+        <!-- Table -->
+        <div class="table-responsive">
+            <table id="historyTable" class="table table-striped table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Drone</th>
+                        <th>Command</th>
+                        <th>Timestamp</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for log in logs %}
+                    <tr>
+                        <td>{{ log.id }}</td>
+                        <td>{{ log.drone }}</td>
+                        <td>{{ log.command }}</td>
+                        <td>{{ log.timestamp.strftime('%d-%m-%Y %H:%M:%S') }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="text-center mt-4">
+            <a href="/" class="btn btn-primary">← Back to Controller</a>
+        </div>
+    </div>
+
+    <!-- jQuery, Bootstrap JS, DataTables JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('#historyTable').DataTable();
+        });
+
+        function exportTableToCSV() {
+            let csv = [];
+            let rows = document.querySelectorAll('table tr');
+
+            rows.forEach(row => {
+                let cols = row.querySelectorAll('td, th');
+                let rowData = Array.from(cols).map(col => col.innerText).join(',');
+                csv.push(rowData);
+            });
+
+            let csvFile = new Blob([csv.join('\n')], { type: 'text/csv' });
+            let downloadLink = document.createElement('a');
+            downloadLink.download = 'command_history.csv';
+            downloadLink.href = window.URL.createObjectURL(csvFile);
+            downloadLink.click();
+        }
+    </script>
+</body>
+</html>

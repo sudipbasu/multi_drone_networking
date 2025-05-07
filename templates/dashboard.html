@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Drone Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <div class="container py-5">
+        <div class="card shadow-sm mb-4">
+            <div class="card-body text-center">
+                <h1 class="card-title mb-0">🚀 Drone Dashboard</h1>
+                <p class="text-muted mb-0">Monitor real-time drone status and last activity</p>
+            </div>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-hover table-striped align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col">Drone ID</th>
+                        <th scope="col">Last Command</th>
+                        <th scope="col">Last Seen</th>
+                        <th scope="col">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for drone in drones %}
+                    <tr>
+                        <td><strong>#{{ drone.id }}</strong></td>
+                        <td>{{ drone.last_command or 'No data' }}</td>
+                        <td>{{ drone.last_seen or 'Never' }}</td>
+                        <td>
+                            {% if drone.status == 'Online' %}
+                            <span class="badge bg-success">Online</span>
+                            {% else %}
+                            <span class="badge bg-danger">Offline</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="text-center mt-4">
+            <a href="/" class="btn btn-primary">
+                ← Back to Controller
+            </a>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

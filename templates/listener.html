@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Drone Listener Launcher</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f0f4f8;
+        }
+        .card {
+            padding: 30px;
+            max-width: 400px;
+            width: 100%;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h4 class="mb-4 text-center text-primary">Start Drone Listener</h4>
+        <form id="listenerForm">
+            <div class="mb-3">
+                <label for="droneId" class="form-label">Drone ID</label>
+                <input type="number" class="form-control" id="droneId" name="drone_id" min="1" required>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Start Listener</button>
+        </form>
+        <div id="statusMsg" class="mt-3 text-center"></div>
+    </div>
+
+    <script>
+        document.getElementById('listenerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const droneId = document.getElementById('droneId').value;
+            document.getElementById('statusMsg').innerText = 'Starting listener...';
+            fetch('/start_listener', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ drone_id: droneId })
+            })
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById('statusMsg').innerText = data.message;
+            })
+            .catch(() => {
+                document.getElementById('statusMsg').innerText = 'Error starting listener.';
+            });
+        });
+    </script>
+</body>
+</html>
