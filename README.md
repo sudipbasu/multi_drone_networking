@@ -115,7 +115,7 @@ gunicorn -w 4 -b 0.0.0.0:5000 app:app
 </ol>
 
 <h2>📧 Contact</h2>
-<p>For questions or support: <a href="mailto:sudipbasu845@gmail.com">your.email@example.com</a></p>
+<p>For questions or support: <a href="mailto:sudipbasu845@gmail.com">sudipbasu845@gmail.com</a></p>
 
 </body>
 </html>
