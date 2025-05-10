@@ -102,8 +102,6 @@ gunicorn -w 4 -b 0.0.0.0:5000 app:app
 
 <p><strong>Note:</strong> This system currently simulates drone behavior. For actual drone integration, hardware-specific adapters and safety protocols must be implemented. Always comply with local drone regulations.</p>
 
-<h2>📜 License</h2>
-<p>MIT License - See <a href="LICENSE">LICENSE</a> file for details</p>
 
 <h2>🤝 Contributing</h2>
 <ol>
